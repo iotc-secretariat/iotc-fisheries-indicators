@@ -1,0 +1,19 @@
+# Temporal trends in estimated average weights
+
+### Bigeye tuna
+
+```{r CARaisedAvgWeightCombinedBET, fig.cap = "Combined estimated bigeye tuna average weight (kg/fish) in the catch by fishery and year. Semi-transparent points correspond to years for which the original size samples cover strata with reported catches (by year and fishery) **lower** than 50 t. LS = schools associated with floating objects; FS = free-swimming schools. Longline | Japan = includes data from longliners flagged by Japan, Rep. of Korea and Thailand; Longline | Taiwan = includes data from longliners flagged by Taiwan,China and all other flags not otherwise mentioned. Data source: raised time-area catches"}
+include_graphics("../../outputs/charts/SF/BET/AVG_WEIGHT/LINEPLOT_COMBINED_FISHERY.png")
+```
+
+### Skipjack tuna
+
+```{r CARaisedAvgWeightCombinedSKJ, fig.cap = "Combined estimated skipjack tuna average weight (kg/fish) in the catch by fishery and year. Semi-transparent points correspond to years for which the original size samples cover strata with reported catches (by year and fishery) **lower** than 50 t. LS = schools associated with floating objects; FS = free-swimming schools. Longline | Japan = includes data from longliners flagged by Japan, Rep. of Korea and Thailand; Longline | Taiwan = includes data from longliners flagged by Taiwan,China and all other flags not otherwise mentioned. Data source: raised time-area catches"}
+include_graphics("../../outputs/charts/SF/SKJ/AVG_WEIGHT/LINEPLOT_COMBINED_FISHERY.png")
+```
+
+### Yellowfin tuna
+
+```{r CARaisedAvgWeightCombinedYFT, fig.cap = "Combined estimated yellowfin tuna average weight (kg/fish) in the catch by fishery and year. Semi-transparent points correspond to years for which the original size samples cover strata with reported catches (by year and fishery) **lower** than 50 t. LS = schools associated with floating objects; FS = free-swimming schools. Longline | Japan = includes data from longliners flagged by Japan, Rep. of Korea and Thailand; Longline | Taiwan = includes data from longliners flagged by Taiwan,China and all other flags not otherwise mentioned. Data source: raised time-area catches"}
+include_graphics("../../outputs/charts/SF/YFT/AVG_WEIGHT/LINEPLOT_COMBINED_FISHERY.png")
+```
