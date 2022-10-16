@@ -18,7 +18,10 @@ pacman::p_load(
   "officer",
   "ggsci",
   "patchwork",
-  "tmap",
-  "equatags", 
-  "magick"
+  "magick", 
+  "plotly",
+  "ggh4x"
 )
+
+# Set theme_bw for all plots
+theme_set(theme_bw())
