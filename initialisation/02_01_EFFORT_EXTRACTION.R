@@ -54,28 +54,33 @@ ggsave("../outputs/charts/EFFORT/BB/EF_BB_FDAYS_FLEETS_YEAR_BARPLOT.png", EF_BB_
 EF_PS_TIME_RAW = raw.EF(fishery_group_codes = "PS")[FISHERY_TYPE_CODE == "IND" & FLEET_CODE != "AUS"][EFFORT_UNIT_CODE %in% c("FHOURS", "FDAYS")]
 EF_PS_TIME_RAW[EFFORT_UNIT_CODE == "FHOURS", `:=`(EFFORT = EFFORT / 13, EFFORT_UNIT_CODE = "FDAYS")] 
 
-EF_PS_FDAYS_YEAR_FLEET = EF_PS_TIME_RAW[, .(FDAYS = sum(EFFORT, na.rm = TRUE)), keyby = .(YEAR, FLEET_CODE, FLEET)]
+EF_PS_FDAYS_RAW_YEAR_FLEET = EF_PS_TIME_RAW[, .(FDAYS = sum(EFFORT, na.rm = TRUE)), keyby = .(YEAR, FLEET_CODE, FLEET)]
 
 # Add days at sea for EUFRA in 2018-2021
-EF_FDAYS_PS_YEAR_FRA_2018_2021 = data.table(YEAR = 2018:2021, FLEET_CODE = "EUFRA", FLEET = "EU,France", FDAYS = c(2885, 2501, 1805, 1834))
+EF_PS_FDAYS_YEAR_FRA_2018_2021 = data.table(YEAR = 2018:2021, FLEET_CODE = "EUFRA", FLEET = "EU (France)", FDAYS = c(2885, 2501, 1805, 1834))
 
-EF_FDAYS_PS_YEAR_FLEET = EF_PS_FDAYS_YEAR_FLEET[!(FLEET_CODE == "EUFRA" & YEAR == 2018)]
+EF_PS_FDAYS_YEAR_FLEET = EF_PS_FDAYS_RAW_YEAR_FLEET[!(FLEET_CODE == "EUFRA" & YEAR %in% 2018:2021)]
 
-EF_FDAYS_PS_YEAR_FLEET = rbindlist(list(EF_FDAYS_PS_YEAR_FLEET, EF_FDAYS_PS_YEAR_FRA_2018_2021))
-
-EF_PS_FDAYS_RAW_FLEETS_YEAR_BARPLOT = value_bar(EF_PS_FDAYS_YEAR_FLEET, value = "FDAYS", fill_by = "FLEET", scale = 1, y_axis_label = "Effort (Fishing days)", trim_labels = FALSE) + theme(legend.position = "bottom")
-
-#plotly_build(EF_PS_FDAYS_RAW_FLEETS_YEAR_BARPLOT)
+EF_PS_FDAYS_YEAR_FLEET = rbindlist(list(EF_PS_FDAYS_YEAR_FLEET, EF_PS_FDAYS_YEAR_FRA_2018_2021))
 
 ### SUPPORT VESSELS ####
 
+# Missing effort from Seychelles (2014, 2015, 2017)
+
 EF_SP_RAW = as.data.table(read.xlsx("../inputs/data/3SU_DATA_collated.xlsx"))
+
+# Re-express days at sea in "days" for consistency with purse seiners (operations only occur in daylight)
+EF_SP_RAW[, DAYS := DAYS_AT_SEA/24*13]
+
 names(EF_SP_RAW)[names(EF_SP_RAW) == "FLAG_CODE"] = "FLEET_CODE"
 EF_SP_RAW[FLEET_CODE %in% c("ESP", "FRA", "ITA"), FLEET_CODE := paste0("EU", FLEET_CODE)]
 
-EF_SP_DAYS_YEAR_FLEET = EF_SP_RAW[, .(DAYS = sum(DAYS_AT_SEA/24*13, na.rm = TRUE)), keyby = .(YEAR, FLEET_CODE)]
-
-EF_SP_DAYS_RAW_FLEETS_YEAR_BARPLOT = value_bar(EF_SP_DAYS_YEAR_FLEET, value = "DAYS", fill_by = "FLEET", scale = 1, y_axis_label = "Effort (Days at sea)", trim_labels = FALSE) + theme(legend.position = "bottom")
+EF_SP_RAW[FLEET_CODE == "EUESP", FLEET := "EU (Spain)"]
+EF_SP_RAW[FLEET_CODE == "EUFRA", FLEET := "EU (France)"]
+EF_SP_RAW[FLEET_CODE == "JPN", FLEET := "Japan"]
+EF_SP_RAW[FLEET_CODE == "KOR", FLEET := "Republic of Korea"]
+EF_SP_RAW[FLEET_CODE == "SYC", FLEET := "Seychelles"]
+EF_SP_RAW[FLEET_CODE == "MUS", FLEET := "Mauritius"]
 
 ## NUMBER OF SETS #### 
 

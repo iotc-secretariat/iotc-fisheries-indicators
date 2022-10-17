@@ -1,4 +1,4 @@
-YEAR,VESSEL_NUMBER,VESSEL,GEAR,VESSEL_TYPE,FLEET,LOA,GT
+YEAR,IOTC_CODE,VESSEL_NAME,GEAR,VESSEL_TYPE,FLEET,LOA,GT
 2019,IOTC016190,KERSAINT,Supply Vessel Purse Seiners, Supply vessel (purse seiners),France (EU),40,424
 2020,IOTC016190,KERSAINT,Supply Vessel Purse Seiners, Supply vessel (purse seiners),France (EU),40,424
 2018,IOTC016190,GIBELE,Supply Vessel Purse Seiners, Supply vessel (purse seiners),Italy (EU),40,424
