@@ -35,6 +35,8 @@ SA_AREAS_CONFIG = data.table(
                  "All other")
 )
 
+SA_AREAS_CONFIG[, AREA_NAME := paste0(AREA_CODE, " - ", NAME_SHORT)]
+
 # Color constants for current BET SA areas
 BET_SA_AREA_COLOR_1 = ALL_FI_COLORS[FISHERY_CODE == "GN"]
 BET_SA_AREA_COLOR_2 = ALL_FI_COLORS[FISHERY_CODE == "LLF"]

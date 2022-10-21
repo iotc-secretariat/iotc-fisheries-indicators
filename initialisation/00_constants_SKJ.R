@@ -30,6 +30,8 @@ SA_AREAS_CONFIG = data.table(
                  "Eastern Indian Ocean, Arabian sea and Maldives atolls")
 )
 
+SA_AREAS_CONFIG[, AREA_NAME := paste0(AREA_CODE, " - ", NAME_SHORT)]
+
 # Color constants for current YFT SA areas
 SKJ_SA_AREA_COLOR_1 = ALL_FI_COLORS[FISHERY_CODE == "PSLS"]  # IRYFT1A
 SKJ_SA_AREA_COLOR_2 = ALL_FI_COLORS[FISHERY_CODE == "BB"] # IRYFT1B

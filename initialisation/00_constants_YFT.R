@@ -36,6 +36,8 @@ SA_AREAS_CONFIG = data.table(
                  "All other areas")
 )
 
+SA_AREAS_CONFIG[, AREA_NAME := paste0(AREA_CODE, " - ", NAME_SHORT)]
+
 # Color constants for current YFT SA areas
 YFT_SA_AREA_COLOR_1 = ALL_FI_COLORS[FISHERY_CODE == "LLF"]  # IRYFT1A
 YFT_SA_AREA_COLOR_2 = ALL_FI_COLORS[FISHERY_CODE == "PSLS"] # IRYFT1B

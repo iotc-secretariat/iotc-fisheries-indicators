@@ -1,4 +1,4 @@
-l_info("Computing indicator of fishing capacity")
+l_info("Computing fishing capacity indicators")
 
 # LARGE-SCALE PURSE SEINERS ####
 
@@ -158,4 +158,4 @@ ANNUAL_SP_MEAN_LOA_LINEPLOT =
 
 save_plot("../outputs/charts/AVL/ANNUAL_SP_MEAN_LOA_LINEPLOT.png", ANNUAL_SP_MEAN_LOA_LINEPLOT, 8, 4.5)
 
-l_info("Fishing capacity indicator computed!")
+l_info("Fishing capacity indicators computed!")
