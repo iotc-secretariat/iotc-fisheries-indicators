@@ -1,4 +1,4 @@
-d_info("Initializing SA areas...", WPTT_SPECIES)
+l_info("Initializing SA areas...", WPTT_SPECIES)
 
 retrieve_areas = function(sa_areas_configuration = SA_AREAS_CONFIG) {
   areas = iotc.core.gis.wkt::fishing_grounds_data(fishing_ground_codes = sa_areas_configuration$IOTC_CODE, connection = DB_IOTCSTATISTICS())
@@ -42,4 +42,4 @@ SA_MAP =
 
 save_plot(paste0("../outputs/charts/AREAS/SA_AREA_", WPTT_SPECIES, ".png"), SA_MAP, DEFAULT_PLOT_WIDTH_MEDIUM, DEFAULT_PLOT_HEIGHT_MEDIUM)
 
-d_info("SA areas initialized!", WPTT_SPECIES)
+l_info("SA areas initialized!", WPTT_SPECIES)
