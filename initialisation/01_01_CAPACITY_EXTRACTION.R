@@ -51,7 +51,7 @@ SELECT DISTINCT RefYear AS YEAR,
   AND VesselType NOT IN ('PS', 'SP', 'RT', 'CF', 'BB', 'GI', 'TW')
   AND GearType NOT IN ('LINE', 'HAND', 'TROL', 'PSS', 'BB', 'TRAW', 'PS', 'SUPP', 'GILL', 'HABB', 'BBLI', 'SJIG')
   AND (LOA IS NULL OR LOA > =24)
-  AND VesselName NOT IN ('TAIKEI MARU NO.1', 'KOOSHA-2', 'JALPAREE-1', 'IMULA1468MTR', 'SIRAF', 'KAVEH 1')
+  AND VesselName NOT IN ('TAIKEI MARU NO.1', 'KOOSHA-2', 'JALPAREE-1', 'IMULA1468MTR', 'SIRAF', 'KAVEH 1', 'OCEAN DYNASTY', 'DELAMERE', 'INDEPENDENCE')
   ;"))
 
 l_info("Data extraction initialized")

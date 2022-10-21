@@ -1,12 +1,9 @@
+l_info("Initialisation of catch data extraction...", WPTT_SPECIES)
 
 # NC DATA
-
-NCR = NC_raised(species_codes = c("BET", "SKJ", "YFT"))
+NC_SP_RAISED = NC_raised(species_codes = WPTT_SPECIES)
 
 # CA DATA ####
+CA_SP_RAISED = CA_raised(species_codes = WPTT_SPECIES)
 
-CA_BET_RAISED = CA_raised(species_codes = "BET")
-CA_SKJ_RAISED = CA_raised(species_codes = "SKJ")
-CA_YFT_RAISED = CA_raised(species_codes = "YFT")
-
-
+l_info("Catch data extraction initialised!", WPTT_SPECIES)

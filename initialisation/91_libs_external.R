@@ -20,7 +20,8 @@ pacman::p_load(
   "patchwork",
   "magick", 
   "plotly",
-  "ggh4x"
+  "ggh4x", 
+  "htmlwidgets"
 )
 
 # Set theme_bw for all plots

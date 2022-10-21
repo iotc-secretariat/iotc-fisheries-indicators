@@ -2,11 +2,11 @@
 pacman::p_load("knitr", "rmarkdown", "bookdown")
 
 # Data parameters
-SPECIES_WPTT = "BET"
-last_year     = 2021
-previous_year = last_year - 4
-full_period   = 1950:last_year
-recent_period = previous_year:last_year
+WPTT_SPECIES  = "BET"
+LAST_YEAR     = 2021
+PREVIOUS_YEAR = LAST_YEAR - 4
+FULL_PERIOD   = 1950:LAST_YEAR
+RECENT_PERIOD = PREVIOUS_YEAR:LAST_YEAR
 
 # Source the R codes
 setwd("initialization")

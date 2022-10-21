@@ -5,7 +5,10 @@ l_info("Consolidating information on active purse seiners...")
 ACTIVE_PS = copy(ACTIVE_PS_RAW)
 
 # Format the year
-ACTIVE_PS_RAW[, YEAR := as.numeric(YEAR)]
+ACTIVE_PS[, YEAR := as.numeric(YEAR)]
+
+# Remove Japanese purse seiners except for NIPPON MARU for 2002 (Y:\04 - Meetings\05 - Scientific Committee\SC06 - 2003 - Seychelles\Documents\IOTC-SC-03-Inf.4)
+ACTIVE_PS = ACTIVE_PS[!(YEAR == 2002 & FLEET == "Japan" & VESSEL_NAME != "NIPPON MARU")]
 
 # Harmonize vessel names
 ACTIVE_PS[IOTC_CODE == "IOTC000178", VESSEL_NAME := "JUAN RAMON EGANA"]
@@ -240,7 +243,20 @@ ACTIVE_LL = ACTIVE_LL_AVL[!IOTC_NUMBER %in% IOTC_NUMBERS_PS_SP]
 
 # Harmonize names and attributes
 ACTIVE_LL[IOTC_NUMBER == "900042645", `:=` (VESSEL_NAME = "FENG GUO NO.168", GEAR = "LL", VESSEL_TYPE = "LL", LOA = 27.9, GT = 95)]
+
 ACTIVE_LL[IOTC_NUMBER == "900051740", `:=` (VESSEL_NAME = "HO HSIN HSING NO.601", GEAR = "LL", VESSEL_TYPE = "LL", FLEET_CODE = "TWN", LOA = 36, GT = 199)]    # harmonizing to TWN while reported as both CHN and TWN in 2014
 
+ACTIVE_LL[IOTC_NUMBER == "900051740", `:=` (VESSEL_NAME = "HO HSIN HSING NO.601", GEAR = "LL", VESSEL_TYPE = "LL", FLEET_CODE = "TWN", LOA = 36, GT = 199)]    # harmonizing to TWN while reported as both CHN and TWN in 2014
+
+ACTIVE_LL[YEAR == 2015 & VESSEL_TYPE == "UN", `:=` (GEAR = "LL", VESSEL_TYPE = "LL")]
+ACTIVE_LL[YEAR>=2015, .N, keyby = .(GEAR)]
+
+# Update VESSEL_TYPE based on GEAR
+ACTIVE_LL[YEAR<2015 & GEAR == "LL" & VESSEL_TYPE == "UN", `:=` (GEAR = "LL", VESSEL_TYPE = "LL")]
+
+## Use information from vessel type when known to update UNKNOWN VESSEL_TYPE
+IOTC_NUMBERS_LONGLINERS = unique(ACTIVE_LL[VESSEL_TYPE == "LL", IOTC_NUMBER])
+
+ACTIVE_LL[VESSEL_TYPE == "UN" & IOTC_NUMBER %in% IOTC_NUMBERS_LONGLINERS, `:=` (GEAR = "LL", VESSEL_TYPE = "LL")]
 
 l_info("Information on purse seiners consolidated!")
