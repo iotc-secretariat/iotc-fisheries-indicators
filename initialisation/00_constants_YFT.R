@@ -29,10 +29,10 @@ SA_AREAS_CONFIG = data.table(
   IOTC_CODE  = c("IRYFT1A", "IRYFT1B", "IRYFT02", "IRYFT03", "IRYFT04", "IRYFT00"),
   AREA_CODE  = c("R1a", "R1b", "R2", "R3", "R4", "R0"),
   NAME_SHORT = c("Arabian sea",
-                 "Western Indian ocean (tropical)",
-                 "Mozambique channel",
-                 "Southern Indian ocean",
-                 "Eastern Indian ocean (tropical)",
+                 "Western tropical",
+                 "Mozambique",
+                 "South",
+                 "Eastern tropical",
                  "All other areas")
 )
 

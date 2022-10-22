@@ -32,7 +32,7 @@ SA_AREAS_CONFIG = data.table(
   NAME_SHORT = c("West",
                  "East",
                  "South",
-                 "All other")
+                 "All other areas")
 )
 
 SA_AREAS_CONFIG[, AREA_NAME := paste0(AREA_CODE, " - ", NAME_SHORT)]

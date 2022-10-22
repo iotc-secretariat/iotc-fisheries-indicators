@@ -10,7 +10,7 @@ FISHERY_GROUP_COLORS = fishery_group_colors_for(EF_FISHERIES_YEAR_FLEET)
 
 # Configure faceted plot
 N_FACETS = length(unique(EF_FISHERIES_YEAR_FLEET$FISHERY_FLEET_UNIT))
-N_ROW_FACETS = ifelse(N_FACETS <=4, 1, ifelse(N_SELECTED_AW_FISHERIES<9, 2, 3))
+N_ROW_FACETS = ifelse(N_FACETS <=4, 1, ifelse(N_FACETS<9, 2, 3))
 
 ## Non-standardized effort ####
 EF_YEAR_FLEET_LINEPLOT_FACETED =

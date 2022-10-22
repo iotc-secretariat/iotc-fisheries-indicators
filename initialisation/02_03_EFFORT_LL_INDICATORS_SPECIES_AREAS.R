@@ -30,7 +30,7 @@ EF_LL_HOOKS_YEAR_FLEET_AREA = EF_LL_HOOKS_TROP_SA_YEAR[, .(UNIT = "HOOKS", EFFOR
 
 # DEEP-FREEZING LONGLINE ####
 # Focus on the 3 main areas
-EF_LLD = EF_LL_HOOKS_YEAR_FLEET_AREA[!is.na(AREA_CODE) & AREA_CODE != "A0 - All other" & FISHERY_CODE == "LLD"]
+EF_LLD = EF_LL_HOOKS_YEAR_FLEET_AREA[!is.na(AREA_CODE) & !AREA_CODE %in% c("A0 - All other areas", "R0 - All other areas") & FISHERY_CODE == "LLD"]
 EF_LLD[, EFFORT := EFFORT/1e6]
 EF_LLD[, EFFORT_STD := EFFORT/mean(EFFORT), by = .(FLEET_CODE, AREA_CODE)]
 
@@ -70,7 +70,7 @@ ggsave(paste0("../outputs/charts/EFFORT/", WPTT_SPECIES, "/EF_STD_LLD_YEAR_FLEET
 
 # FRESH LONGLINE ####
 
-EF_LLF = EF_LL_HOOKS_YEAR_FLEET_AREA[!is.na(AREA_CODE) & AREA_CODE != "A0 - All other" & FISHERY_CODE == "LLF"]
+EF_LLF = EF_LL_HOOKS_YEAR_FLEET_AREA[!is.na(AREA_CODE) & !AREA_CODE %in% c("A0 - All other areas", "R0 - All other areas") & FISHERY_CODE == "LLF"]
 EF_LLF[, EFFORT := EFFORT/1e6]
 EF_LLF[, EFFORT_STD := EFFORT/mean(EFFORT), by = .(FLEET_CODE, AREA_CODE)]
 
@@ -89,7 +89,7 @@ EF_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED =
   facet_grid(vars(FLEET), vars(AREA_CODE), scales = "free_y") +
   theme(strip.background = element_blank(), panel.border = element_rect(colour = "black", fill = NA), strip.text.x = element_text(hjust = 0), legend.position = "none", panel.grid.minor = element_line(linetype = "dashed"))
 
-ggsave(paste0("../outputs/charts/EFFORT/", WPTT_SPECIES, "/EF_LLF_YEAR_FLEET_LINEPLOT_FACETED.png"), EF_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED, width = 8, height = 3)
+ggsave(paste0("../outputs/charts/EFFORT/", WPTT_SPECIES, "/EF_LLF_YEAR_FLEET_LINEPLOT_FACETED.png"), EF_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED, width = 8, height = 4)
 
 ## Standardized effort ####
 EF_STD_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED =
