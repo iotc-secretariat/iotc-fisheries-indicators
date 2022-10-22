@@ -1,7 +1,7 @@
 l_info("Computing catch indicators", WPTT_SPECIES)
 
 # TOTAL CATCHES BY FISHERY GROUP ####
-NC_SP_YEAR = NC_SP_RAISED[, .(CATCH = sum(CATCH/1000)), keyby = .(FISHERY_CODE, FISHERY, YEAR)]
+NC_SP_YEAR = NC_RAISED[, .(CATCH = sum(CATCH/1000)), keyby = .(FISHERY_CODE, FISHERY, YEAR)]
 NC_SP_YEAR[, CATCH_STD := CATCH/mean(CATCH), by = .(FISHERY_CODE, FISHERY)]
 
 NC_SP_YEAR_QUANTILES = NC_SP_YEAR[, .(CATCH_QLOW = quantile(CATCH, 0.05), CATCH_QHIGH = quantile(CATCH, 0.95), CATCH_STD_QLOW = quantile(CATCH_STD, 0.05), CATCH_STD_QHIGH = quantile(CATCH_STD, 0.95)), keyby = .(FISHERY_CODE, FISHERY)]
@@ -21,7 +21,7 @@ NC_YEAR_FISHERY_LINEPLOT_FACETED =
   facet_wrap(~FISHERY, scale = "free_y", dir = "v", ncol = 4) + 
   theme(strip.background = element_blank(), panel.border = element_rect(colour = "black", fill = NA), strip.text = element_text(hjust = 0), legend.position = "none", panel.grid.minor = element_line(linetype = "dashed"))
 
-ggsave(paste0("../outputs/charts/CATCH/NC_YEAR_FISHERY_LINEPLOT_FACETED_", WPTT_SPECIES, ".png"), NC_YEAR_FISHERY_LINEPLOT_FACETED, width = 12, height = 6.75)
+ggsave(paste0("../outputs/charts/CATCH/", WPTT_SPECIES, "/NC_YEAR_FISHERY_LINEPLOT_FACETED.png"), NC_YEAR_FISHERY_LINEPLOT_FACETED, width = 8, height = 6)
 
 ## Standardized catch ####
 NC_STD_YEAR_FISHERY_LINEPLOT_FACETED = 
@@ -36,11 +36,11 @@ NC_STD_YEAR_FISHERY_LINEPLOT_FACETED =
   facet_wrap(~FISHERY, scale = "free_y", dir = "v", ncol = 4) + 
   theme(strip.background = element_blank(), panel.border = element_rect(colour = "black", fill = NA), strip.text = element_text(hjust = 0), legend.position = "none", panel.grid.minor = element_line(linetype = "dashed"))
 
-ggsave(paste0("../outputs/charts/CATCH/NC_STD_YEAR_FISHERY_LINEPLOT_FACETED_", WPTT_SPECIES, ".png"), NC_STD_YEAR_FISHERY_LINEPLOT_FACETED, width = 12, height = 6.75)
+ggsave(paste0("../outputs/charts/CATCH/", WPTT_SPECIES, "/NC_STD_YEAR_FISHERY_LINEPLOT_FACETED.png"), NC_STD_YEAR_FISHERY_LINEPLOT_FACETED, width = 12, height = 6.75)
 
 # TOTAL CATCHES BY FISHERY GROUP ####
 
-NC_SP_YEAR = NC_SP_RAISED[, .(CATCH = sum(CATCH/1000)), keyby = .(FISHERY_GROUP_CODE, FISHERY_GROUP, YEAR)]
+NC_SP_YEAR = NC_RAISED[, .(CATCH = sum(CATCH/1000)), keyby = .(FISHERY_GROUP_CODE, FISHERY_GROUP, YEAR)]
 NC_SP_YEAR[, CATCH_STD := CATCH/mean(CATCH), by = .(FISHERY_GROUP_CODE, FISHERY_GROUP)]
 
 NC_SP_YEAR_QUANTILES = NC_SP_YEAR[, .(CATCH_QLOW = quantile(CATCH, 0.05), CATCH_QHIGH = quantile(CATCH, 0.95), CATCH_STD_QLOW = quantile(CATCH_STD, 0.05), CATCH_STD_QHIGH = quantile(CATCH_STD, 0.95)), keyby = .(FISHERY_GROUP_CODE, FISHERY_GROUP)]
@@ -60,7 +60,7 @@ NC_YEAR_FISHERY_GROUP_LINEPLOT_FACETED =
   facet_wrap(~FISHERY_GROUP, scale = "free_y") + 
   theme(strip.background = element_blank(), panel.border = element_rect(colour = "black", fill = NA), strip.text = element_text(hjust = 0), legend.position = "none", panel.grid.minor = element_line(linetype = "dashed"))
 
-ggsave(paste0("../outputs/charts/CATCH/NC_YEAR_FISHERY_GROUP_LINEPLOT_FACETED_", WPTT_SPECIES, ".png"), NC_YEAR_FISHERY_GROUP_LINEPLOT_FACETED, width = 8, height = 4.5)
+ggsave(paste0("../outputs/charts/CATCH/", WPTT_SPECIES, "/NC_YEAR_FISHERY_GROUP_LINEPLOT_FACETED.png"), NC_YEAR_FISHERY_GROUP_LINEPLOT_FACETED, width = 8, height = 4.5)
 
 ## Standardized catches ####
 NC_STD_YEAR_FISHERY_GROUP_LINEPLOT_FACETED = 
@@ -75,16 +75,16 @@ NC_STD_YEAR_FISHERY_GROUP_LINEPLOT_FACETED =
   facet_wrap(~FISHERY_GROUP, scale = "free_y") + 
   theme(strip.background = element_blank(), panel.border = element_rect(colour = "black", fill = NA), strip.text = element_text(hjust = 0), legend.position = "none", panel.grid.minor = element_line(linetype = "dashed"))
 
-ggsave(paste0("../outputs/charts/CATCH/NC_STD_YEAR_FISHERY_GROUP_LINEPLOT_FACETED_", WPTT_SPECIES, ".png"), NC_STD_YEAR_FISHERY_GROUP_LINEPLOT_FACETED, width = 8, height = 4.5)
+ggsave(paste0("../outputs/charts/CATCH/", WPTT_SPECIES, "/NC_STD_YEAR_FISHERY_GROUP_LINEPLOT_FACETED.png"), NC_STD_YEAR_FISHERY_GROUP_LINEPLOT_FACETED, width = 8, height = 4.5)
 
 # CLASSICAL BARPLOT OF TOTAL CATCHES BY FISHERY ####
 
 ## PNG ####
-NUM_FISHERIES = length(unique(NC_SP_RAISED$FISHERY_CODE))
+NUM_FISHERIES = length(unique(NC_RAISED$FISHERY_CODE))
 NUM_LEGEND_ROWS = ifelse(NUM_FISHERIES <= 6, 1, ifelse(NUM_FISHERIES <= 8, 2, 3))
 
-NC_RAISED_BARPLOT_FISHERY = bar.catch(NC_SP_RAISED, C_FISHERY) + theme(axis.text.x = element_text(size = 8), legend.position = "bottom") + guides(fill = guide_legend(nrow = NUM_LEGEND_ROWS))
+NC_RAISED_BARPLOT_FISHERY = bar.catch(NC_RAISED, C_FISHERY) + theme(axis.text.x = element_text(size = 8), legend.position = "bottom") + guides(fill = guide_legend(nrow = NUM_LEGEND_ROWS))
 
-save_plot(paste0("../outputs/charts/CATCH/NC_RAISED_BARPLOT_FISHERY_", WPTT_SPECIES, ".png"), NC_RAISED_BARPLOT_FISHERY, 8, 4.5)
+save_plot(paste0("../outputs/charts/CATCH/", WPTT_SPECIES, "/NC_RAISED_BARPLOT_FISHERY.png"), NC_RAISED_BARPLOT_FISHERY, 8, 4.5)
 
 l_info("Catch indicators computed!")
