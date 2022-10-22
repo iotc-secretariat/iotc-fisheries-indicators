@@ -34,8 +34,6 @@ EF_LLD = EF_LL_HOOKS_YEAR_FLEET_AREA[!is.na(AREA_CODE) & !AREA_CODE %in% c("A0 -
 EF_LLD[, EFFORT := EFFORT/1e6]
 EF_LLD[, EFFORT_STD := EFFORT/mean(EFFORT), by = .(FLEET_CODE, AREA_CODE)]
 
-EF_LLD_YEAR_FLEET_QUANTILES = EF_LLD[, .(EFFORT_QLOW = quantile(EFFORT, 0.05), EFFORT_QHIGH = quantile(EFFORT, 0.95), EFFORT_STD_QLOW = quantile(EFFORT_STD, 0.05), EFFORT_STD_QHIGH = quantile(EFFORT_STD, 0.95)), keyby = .(FLEET_CODE, FLEET, AREA_CODE)]
-
 FLEET_COLORS = fleet_colors_for(EF_LLD)
 
 ## Non-standardized effort ####
