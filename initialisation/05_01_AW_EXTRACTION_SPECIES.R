@@ -70,7 +70,7 @@ SFA = update_fisheries_for_SF(SFA)
 
 SFA = merge(SFA, SF_STRATA[STATUS == "ORIGINAL", .(MT = sum(MT)), keyby = .(YEAR)], by = c("YEAR"), all.x = TRUE)
 SFA[, LOW_COVERAGE := ( is.na(MT) | MT < 50 )]
-SFA$MT = NULL
+SFA[, MT := NULL]
 
 # The 'update_fisheries_for_SF' function is defined in the species-specific "constants" script
 SFF = update_fisheries_for_SF(SF)

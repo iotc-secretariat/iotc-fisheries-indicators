@@ -1,5 +1,9 @@
 l_info("Computing average weight indicator", WPTT_SPECIES)
 
+N_SELECTED_AW_FISHERIES = length(unique(SFF2_FILTERED$AW_FISHERY)) - 1
+N_ROW_FACETS = ifelse(N_SELECTED_AW_FISHERIES<4, 1, ifelse(N_SELECTED_AW_FISHERIES<9, 2))
+
+
 # Faceted AW plot showing all fisheries with at least one data point
 AW_YEAR_FISHERY_LINEPLOT_FACETED = 
   ggplot(SFF2_FILTERED[AW_FISHERY != "All fisheries"], 
