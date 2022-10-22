@@ -56,8 +56,10 @@ SF_STRATA =
     )
   )
 
+## Aggregate strata
 SF_STRATA = SF_STRATA[, .(MT = sum(MT)), keyby = .(YEAR, STATUS, AW_FISHERY)]
 
+## Extract catch data
 SPECIES_CA_RAISED = CA.raised(species_codes = WPTT_SPECIES)
 
 SF = SPECIES_CA_RAISED[, .(YEAR, FISHERY_CODE, FLEET_CODE, CATCH, CATCH_IN_NUMBERS)]
