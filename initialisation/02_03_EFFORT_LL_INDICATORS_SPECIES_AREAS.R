@@ -40,7 +40,7 @@ FLEET_COLORS = fleet_colors_for(EF_LLD)
 
 ## Non-standardized effort ####
 EF_LLD_YEAR_FLEET_AREA_LINEPLOT_FACETED =
-ggplot(data = EF_LLD, aes(x  = YEAR, y = EFFORT)) + 
+  ggplot(data = EF_LLD, aes(x  = YEAR, y = EFFORT)) + 
   labs(x = "", y = "Fishing effort (million hooks)") + 
   geom_point(shape = 21, size = 0.7, stroke = 0.7, aes(color = FLEET_CODE)) + 
   geom_line(aes(color = FLEET_CODE)) + 
@@ -92,7 +92,7 @@ EF_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED =
 ggsave(paste0("../outputs/charts/EFFORT/", WPTT_SPECIES, "/EF_LLF_YEAR_FLEET_LINEPLOT_FACETED.png"), EF_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED, width = 8, height = 3)
 
 ## Standardized effort ####
-EF_STD_LLF_YEAR_AREA_FLEET_LINEPLOT_FACETED =
+EF_STD_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED =
   ggplot(data = EF_LLF, aes(x  = YEAR, y = EFFORT_STD)) + 
   labs(x = "", y = "Standardized fishing effort") + 
   geom_point(shape = 21, size = 0.7, stroke = 0.7, aes(color = FLEET_CODE)) + 

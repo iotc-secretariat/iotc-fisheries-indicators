@@ -17,7 +17,7 @@ source("01_03_CAPACITY_INDICATOR.R")
 
 ## Effort
 source("02_01_EFFORT_EXTRACTION.R")
-source("02_03_EFFORT_BB_GN_PS_INDICATORS.R")
+source("02_02_EFFORT_INDICATORS.R")
 
 ## Loop for the 3 species
 for(WPTT_SPECIES in c("BET", "SKJ", "YFT")) {
@@ -28,7 +28,7 @@ source("00_SA_AREAS.R")
 
   if(ANALYZE_SF_LL) { # This is configured in the species-specific constants
     l_info("Computing LL effort by assessment area...", WPTT_SPECIES)
-    source("02_02_EFFORT_LL_INDICATORS_SPECIES.R")
+    source("02_03_EFFORT_LL_INDICATORS_SPECIES_AREAS.R")
     l_info("Finished analyzing SF for LL fisheries!", WPTT_SPECIES)
   }
 

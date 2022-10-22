@@ -17,8 +17,8 @@ SFF_FISHERIES_WITH_DATA = SFF2[LOW_COVERAGE == FALSE, .(NUM_RECORDS = .N), keyby
 SFF2_FILTERED = SFF2[AW_FISHERY %in% SFF_FISHERIES_WITH_DATA$AW_FISHERY]
 
 # Faceted AW plot showing all fisheries with at least one data point
-N_SELECTED_AW_FISHERIES = length(unique(SFF2_FILTERED$AW_FISHERY)) - 1    #Remove All fisheries
-N_ROW_FACETS = ifelse(N_SELECTED_AW_FISHERIES<4, 1, ifelse(N_SELECTED_AW_FISHERIES<9, 2, 3))
+N_FACETS = length(unique(SFF2_FILTERED$AW_FISHERY)) - 1    #Remove All fisheries
+N_ROW_FACETS = ifelse(N_FACETS <=4, 1, ifelse(N_SELECTED_AW_FISHERIES<9, 2, 3))
 
 AW_YEAR_FISHERY_LINEPLOT_FACETED = 
   ggplot(SFF2_FILTERED[AW_FISHERY != "All fisheries"], 
@@ -41,11 +41,5 @@ AW_YEAR_FISHERY_LINEPLOT_FACETED =
   labs(x = "", y = "Average weight (kg/fish)")
 
 ggsave(paste0("../outputs/charts/AW/AW_YEAR_FISHERY_LINEPLOT_FACETED_", WPTT_SPECIES, ".png"), AW_YEAR_FISHERY_LINEPLOT_FACETED, width = 6.7, height = 5)
-
-SKJ 2x3: width = 10/3*2, height = 5
-2x4: width = 10, height = 5
-3x3: width = 10/3*2, height = 5/2*3
-
-
 
 l_info("Average weight indicator computed", WPTT_SPECIES)

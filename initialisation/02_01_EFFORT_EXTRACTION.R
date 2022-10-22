@@ -22,6 +22,9 @@ EF_RAW_LL_HOOKS_TROP = merge(EF_raw(fishery_group_codes = "LL", effort_unit_code
 # Convert to 5x5 grid
 #EF_LL_HOOKS_TROP[FISHING_GROUND_TYPE != "IRREGULAR", CWP55 := convert_CWP_grid(FISHING_GROUND_CODE, target_grid_type_code = grid_5x5), by = .(FISHING_GROUND_CODE)]
 
+# Compute annual effort for main fleets
+EF_LL_HOOKS_YEAR_FLEET_MAIN = EF_RAW_LL_HOOKS_TROP[FLEET_CODE %in% c("JPN", "TWN", "CHN", "KOR"), .(UNIT = "HOOKS", FLEET_CODE = "ASIAN-LL", FLEET = "Main fleets", EFFORT = sum(EFFORT, na.rm = TRUE)), keyby = .(YEAR, FISHERY_GROUP_CODE, FISHERY_GROUP)]
+
 #  GILLNET ####
 
 ## Sri Lanka
@@ -44,7 +47,7 @@ EFFORT_GN_TROP_WITH_RAISING_FACTORS = merge(EF_RAW_GN_TRIPS, CATCH_GN_TROP[, .(Y
 EFFORT_GN_TROP_WITH_RAISING_FACTORS[, EFFORT_RAISED := EFFORT*RF]
 
 # Compute annual effort by fleet
-EF_GN_TRIPS_YEAR_FLEET = EFFORT_GN_TROP_WITH_RAISING_FACTORS[, .(UNIT = "TRIPS", EFFORT = sum(EFFORT_RAISED, na.rm = TRUE)), keyby = .(YEAR, FISHERY_CODE, FISHERY, FLEET_CODE, FLEET)]
+EF_GN_TRIPS_YEAR_FLEET = EFFORT_GN_TROP_WITH_RAISING_FACTORS[, .(UNIT = "TRIPS", EFFORT = sum(EFFORT_RAISED, na.rm = TRUE)), keyby = .(YEAR, FISHERY_GROUP_CODE, FISHERY_GROUP, FLEET_CODE, FLEET)]
 
 EF_GN_TRIPS_YEAR_LKA = EF_GN_TRIPS_YEAR_FLEET[FLEET_CODE == "LKA"]    #Inconsistent effort for IRN in 2018-2020
 
@@ -64,7 +67,7 @@ EF_BB_MDV[is.na(FISHING_GROUND_TYPE) , FISHING_GROUND_TYPE := "IRREGULAR"]
 EF_BB_MDV[FISHING_GROUND_TYPE != "IRREGULAR", CWP55 := convert_CWP_grid(FISHING_GROUND_CODE, target_grid_type_code = grid_5x5), by = .(FISHING_GROUND_CODE)]
 
 # Compute annual effort by fleet
-EF_BB_FDAYS_YEAR_MDV = EF_BB_MDV[, .(UNIT = "FDAYS", EFFORT = sum(EFFORT, na.rm = TRUE)), keyby = .(YEAR, FISHERY_CODE, FISHERY, FLEET_CODE, FLEET)]
+EF_BB_FDAYS_YEAR_MDV = EF_BB_MDV[, .(UNIT = "FDAYS", EFFORT = sum(EFFORT, na.rm = TRUE)), keyby = .(YEAR, FISHERY_GROUP_CODE, FISHERY_GROUP, FLEET_CODE, FLEET)]
 
 ## Attempt to raise the fishing effort
 ## Geo-referenced catches are raised to the nominal catches
@@ -82,21 +85,22 @@ EF_PS_TIME_RAW = raw.EF(fishery_group_codes = "PS")[FISHERY_TYPE_CODE == "IND" &
 EF_PS_TIME_RAW[EFFORT_UNIT_CODE == "FHOURS", `:=`(EFFORT = EFFORT / 13, EFFORT_UNIT_CODE = "FDAYS")] 
 
 # Compute annual effort by fleet
-EF_PS_FDAYS_RAW_YEAR_FLEET = EF_PS_TIME_RAW[, .(UNIT = "FDAYS", FISHERY_CODE = "PSOT", FISHERY = "Purse seine", EFFORT = sum(EFFORT, na.rm = TRUE)), keyby = .(YEAR, FLEET_CODE, FLEET)]
+EF_PS_FDAYS_RAW_YEAR_FLEET = EF_PS_TIME_RAW[, .(UNIT = "FDAYS", EFFORT = sum(EFFORT, na.rm = TRUE)), keyby = .(YEAR, FISHERY_GROUP_CODE, FISHERY_GROUP, FLEET_CODE, FLEET)]
 
 # Add days at sea for EUFRA in 2018-2021
-EF_PS_FDAYS_YEAR_FRA_2018_2021 = data.table(YEAR = 2018:2021, FISHERY_CODE = "PSOT", FISHERY = "Purse seine", FLEET_CODE = "EUFRA", FLEET = "EU (France)", UNIT = "FDAYS", EFFORT = c(2885, 2501, 1805, 1834))
+EF_PS_FDAYS_YEAR_FRA_2018_2021 = data.table(YEAR = 2018:2021, FISHERY_GROUP_CODE = "PS", FISHERY_GROUP = "Purse seine", FLEET_CODE = "EUFRA", FLEET = "EU (France)", UNIT = "FDAYS", EFFORT = c(2885, 2501, 1805, 1834))
 
 EF_PS_FDAYS_YEAR_FLEET = EF_PS_FDAYS_RAW_YEAR_FLEET[!(FLEET_CODE == "EUFRA" & YEAR %in% 2018:2021)]
 
 EF_PS_FDAYS_YEAR_FLEET = rbindlist(list(EF_PS_FDAYS_YEAR_FLEET, EF_PS_FDAYS_YEAR_FRA_2018_2021), use.names = TRUE)
 
-EF_PS_FDAYS_YEAR_MAIN = EF_PS_FDAYS_YEAR_FLEET[, .(FLEET_CODE = "EUAS", FLEET = "Main fleets", EFFORT = sum(EFFORT)), keyby = .(YEAR, UNIT, FISHERY_CODE, FISHERY)]
+EF_PS_FDAYS_YEAR_MAIN = EF_PS_FDAYS_YEAR_FLEET[, .(FLEET_CODE = "EU-ASS", FLEET = "Main fleets", EFFORT = sum(EFFORT)), keyby = .(YEAR, UNIT, FISHERY_GROUP_CODE, FISHERY_GROUP)]
 
 # Combine effort data sets ####
 
 EF_FISHERIES_YEAR_FLEET = 
-  rbindlist(list(EF_GN_TRIPS_YEAR_LKA, 
+  rbindlist(list(EF_LL_HOOKS_YEAR_FLEET_MAIN, 
+                 EF_GN_TRIPS_YEAR_LKA, 
                  EF_BB_FDAYS_YEAR_MDV, 
                  EF_PS_FDAYS_YEAR_MAIN), use.names = TRUE)
 
