@@ -49,19 +49,25 @@ SA_AREA_COLORS = rbind(BET_SA_AREA_COLOR_1,
                        BET_SA_AREA_COLOR_0)
 
 SF_FISHERY_CONFIG = data.table(
-  FISHERY_CODE = c("PSFS", "PSLS", "LLJPN", "LLTWN", "BB", "GN", "OT", "ALL"),
+  FISHERY_CODE = c("PSFS", "PSLS", "LLDJPN", "LLDTWN", "LLDKOR", "LLFCHN",  "LLFTWN", "BB", "GN", "OT", "ALL"),
   FISHERY_NAME = c("Purse seine | FS", 
                    "Purse seine | LS", 
-                   "Longline | Japan", 
-                   "Longline | Taiwan,China",
+                   "Longline deep-freezing | Japan", 
+                   "Longline deep-freezing | Taiwan,China",
+                   "Longline deep-freezing | Korea",
+                   "Longline fresh | China",
+                   "Longline fresh | Taiwan,China",
                    "Baitboat", 
                    "Gillnet", 
                    "Other", 
                    "All fisheries"),
   FISHERY_COLOR = c(colors_for_fishery("PSFS")$FILL,
                     darken(colors_for_fishery("PSLS")$FILL, amount = 0.2),
-                    darken(colors_for_fishery("LLD")$FILL, amount = 0.2),
+                    darken(colors_for_fishery("LLD")$FILL, amount = 0.2), 
+                    darken(colors_for_fishery("LLD")$FILL, amount = 0.3), 
+                    darken(colors_for_fishery("LLD")$FILL, amount = 0.4), 
                     colors_for_fishery("LLF")$FILL,
+                    darken(colors_for_fishery("LLF")$FILL, amount = 0.2),
                     colors_for_fishery("BB")$FILL,
                     colors_for_fishery("GN")$FILL,
                     colors_for_fishery("OT")$FILL,
@@ -81,8 +87,12 @@ update_fisheries_for_SF = function(sf_data) {
     sf_data[FISHERY_CODE == "PSLS", AW_FISHERY := "PSLS"]
     sf_data[FISHERY_CODE == "BB"  , AW_FISHERY := "BB"]
     sf_data[FISHERY_CODE == "GN"  , AW_FISHERY := "GN"]
-    sf_data[FISHERY_CODE == "LLD" &  FLEET_CODE %in% c("JPN", "KOR", "THA"), AW_FISHERY := "LLJPN"]
-    sf_data[FISHERY_CODE == "LLD" & !FLEET_CODE %in% c("JPN", "KOR", "THA"), AW_FISHERY := "LLTWN"]
+    sf_data[FISHERY_CODE == "LLD" & FLEET_CODE == "JPN", AW_FISHERY := "LLDJPN"]
+    sf_data[FISHERY_CODE == "LLD" & FLEET_CODE == "TWN", AW_FISHERY := "LLDTWN"]
+    sf_data[FISHERY_CODE == "LLD" & FLEET_CODE == "KOR", AW_FISHERY := "LLDKOR"]
+    sf_data[FISHERY_CODE == "LLF" & FLEET_CODE == "CHN", AW_FISHERY := "LLFCHN"]
+    sf_data[FISHERY_CODE == "LLF" & FLEET_CODE == "TWN", AW_FISHERY := "LLFTWN"]
+    
   }
   
   sf_data$AW_FISHERY = factor(

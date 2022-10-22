@@ -86,8 +86,12 @@ update_fisheries_for_SF = function(sf_data) {
     sf_data[FISHERY_CODE == "PSLS", AW_FISHERY := "PSLS"]
     sf_data[FISHERY_CODE == "BB"  , AW_FISHERY := "BB"]
     sf_data[FISHERY_CODE == "GN"  , AW_FISHERY := "GN"]
-    sf_data[FISHERY_CODE == "LLD" &  FLEET_CODE %in% c("JPN", "KOR", "THA"), AW_FISHERY := "LLJPN"]
-    sf_data[FISHERY_CODE == "LLD" & !FLEET_CODE %in% c("JPN", "KOR", "THA"), AW_FISHERY := "LLTWN"]
+    sf_data[FISHERY_CODE == "LLD" & FLEET_CODE == "JPN", AW_FISHERY := "LLDJPN"]
+    sf_data[FISHERY_CODE == "LLD" & FLEET_CODE == "TWN", AW_FISHERY := "LLDTWN"]
+    sf_data[FISHERY_CODE == "LLD" & FLEET_CODE == "KOR", AW_FISHERY := "LLDKOR"]
+    sf_data[FISHERY_CODE == "LLF" & FLEET_CODE == "CHN", AW_FISHERY := "LLFCHN"]
+    sf_data[FISHERY_CODE == "LLF" & FLEET_CODE == "TWN", AW_FISHERY := "LLFTWN"]
+    
   }
   
   sf_data$AW_FISHERY = factor(

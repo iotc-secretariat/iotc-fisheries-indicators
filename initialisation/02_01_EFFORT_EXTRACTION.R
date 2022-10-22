@@ -15,12 +15,12 @@ CE_RAW_LL_HOOKS_TROP_STRATA = unique(CE_RAW_LL_HOOKS_TROP[, .(YEAR, MONTH_START,
 EF_RAW_LL_HOOKS_TROP = merge(EF_raw(fishery_group_codes = "LL", effort_unit_codes = "HOOKS", fleet_codes = LL_MAIN_FLEETS), CE_RAW_LL_HOOKS_TROP_STRATA, by = c("YEAR", "MONTH_START", "MONTH_END", "FISHING_GROUND_CODE", "FLEET_CODE", "GEAR_CODE"))
 
 # Add type of grid
-EF_LL_HOOKS_TROP = merge(EF_RAW_LL_HOOKS_TROP, filter_grids()[, .(FISHING_GROUND_CODE, FISHING_GROUND_TYPE)], by = "FISHING_GROUND_CODE", all.x = TRUE)
+#EF_LL_HOOKS_TROP = merge(EF_RAW_LL_HOOKS_TROP, filter_grids()[, .(FISHING_GROUND_CODE, FISHING_GROUND_TYPE)], by = "FISHING_GROUND_CODE", all.x = TRUE)
 
-EF_LL_HOOKS_TROP[is.na(FISHING_GROUND_TYPE) , FISHING_GROUND_TYPE := "IRREGULAR"]
+#EF_LL_HOOKS_TROP[is.na(FISHING_GROUND_TYPE) , FISHING_GROUND_TYPE := "IRREGULAR"]
 
 # Convert to 5x5 grid
-EF_LL_HOOKS_TROP[FISHING_GROUND_TYPE != "IRREGULAR", CWP55 := convert_CWP_grid(FISHING_GROUND_CODE, target_grid_type_code = grid_5x5), by = .(FISHING_GROUND_CODE)]
+#EF_LL_HOOKS_TROP[FISHING_GROUND_TYPE != "IRREGULAR", CWP55 := convert_CWP_grid(FISHING_GROUND_CODE, target_grid_type_code = grid_5x5), by = .(FISHING_GROUND_CODE)]
 
 #  GILLNET ####
 
@@ -96,10 +96,10 @@ EF_PS_FDAYS_YEAR_MAIN = EF_PS_FDAYS_YEAR_FLEET[, .(FLEET_CODE = "EUAS", FLEET = 
 # Combine effort data sets ####
 
 EF_FISHERIES_YEAR_FLEET = 
-rbindlist(list(EF_GN_TRIPS_YEAR_LKA, 
-               EF_BB_FDAYS_YEAR_MDV, 
-               EF_PS_FDAYS_YEAR_MAIN), use.names = TRUE)
-               
+  rbindlist(list(EF_GN_TRIPS_YEAR_LKA, 
+                 EF_BB_FDAYS_YEAR_MDV, 
+                 EF_PS_FDAYS_YEAR_MAIN), use.names = TRUE)
+
 l_info("Effort data extracted", "TROPICAL TUNAS")
 
 

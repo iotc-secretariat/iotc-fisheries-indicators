@@ -1,3 +1,5 @@
+l_info("Initializing average weight data extraction...", WPTT_SPECIES)
+
 ### AVERAGE WEIGHTS (from raised CE)
 
 ### IMPORTANT!!! The approach below only works if the CEForSF table in the WP_CE_RAISED database is updated manually
@@ -23,10 +25,10 @@ LEFT
 ON 
   C.Gear = G.ACode COLLATE SQL_Latin1_General_CP1_CI_AI
 WHERE ", 
-  ifelse(is.na(WPTT_SPECIES), 
-    "1 = 1", 
-    paste0("Species = '", WPTT_SPECIES, "'")
-  ), " 
+                     ifelse(is.na(WPTT_SPECIES), 
+                            "1 = 1", 
+                            paste0("Species = '", WPTT_SPECIES, "'")
+                     ), " 
 GROUP BY 
 	Year, 
 	LTRIM(RTRIM(Fleet)),
@@ -75,21 +77,10 @@ SFA[, MT := NULL]
 # The 'update_fisheries_for_SF' function is defined in the species-specific "constants" script
 SFF = update_fisheries_for_SF(SF)
 
+# Aggregate by year
 SFF = SFF[, .(CATCH = sum(CATCH), CATCH_IN_NUMBERS = sum(CATCH_IN_NUMBERS)), keyby = .(YEAR, AW_FISHERY)]
 
+# Add strata with annual sample weight
 SFF2 = merge(SFF, SF_STRATA[STATUS == "ORIGINAL"], by = c("YEAR", "AW_FISHERY"), all.x = TRUE)
 
-SFF2[, AVG_WEIGHT := CATCH * 1000 / CATCH_IN_NUMBERS]
-
-# Filters out all records for which SF was available, but only from strata covering less than 50 t of catches in total (the threshold is arbitrary)  
-#SFF2[is.na(MT) | MT < 50, AVG_WEIGHT := NA]
-
-SFF2[, LOW_COVERAGE := ( is.na(MT) | MT < 50 )]
-
-SFF2 = SFF2[, .(YEAR, AW_FISHERY, AVG_WEIGHT, LOW_COVERAGE)]
-
-SFF2 = rbind(SFF2, SFA)
-
-SFF_FISHERIES_WITH_DATA = SFF2[LOW_COVERAGE == FALSE, .(NUM_RECORDS = .N), keyby = .(AW_FISHERY)]
-
-SFF2_FILTERED = SFF2[AW_FISHERY %in% SFF_FISHERIES_WITH_DATA$AW_FISHERY]
+l_info("Average weight data extracted...", WPTT_SPECIES)

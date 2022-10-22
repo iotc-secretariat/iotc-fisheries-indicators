@@ -36,9 +36,6 @@ EF_STD_BB_GN_PS_YEAR_FLEET_LINEPLOT_FACETED =
   facet_wrap(~FISHERY_FLEET_UNIT) +
   theme(strip.background = element_blank(), panel.border = element_rect(colour = "black", fill = NA), strip.text.x = element_text(hjust = 0), legend.position = "none", panel.grid.minor = element_line(linetype = "dashed"))
 
-ggsave("../outputs/charts/EFFORT/EF_BB_GN_PS_YEAR_FLEET_LINEPLOT_FACETED.png", EF_BB_GN_PS_YEAR_FLEET_LINEPLOT_FACETED, width = 8, height = 3)
-
-
-
+ggsave("../outputs/charts/EFFORT/EF_STD_BB_GN_PS_YEAR_FLEET_LINEPLOT_FACETED.png", EF_STD_BB_GN_PS_YEAR_FLEET_LINEPLOT_FACETED, width = 8, height = 3)
 
 l_info("Indicator of fishing time computed!")

@@ -1,4 +1,4 @@
-l_info("Computing effort indicators for longline", "TROPICAL TUNAS")
+l_info("Computing effort indicators for longline by assessment area", WPTT_SPECIES)
 
 # MAPPING WITH STOCK ASSESSMENT AREAS ####
 
@@ -29,7 +29,8 @@ EF_LL_HOOKS_TROP_SA_YEAR[, AREA_CODE := factor(AREA_CODE, levels = SA_AREAS_CONF
 EF_LL_HOOKS_YEAR_FLEET_AREA = EF_LL_HOOKS_TROP_SA_YEAR[, .(UNIT = "HOOKS", EFFORT = sum(EFFORT, na.rm = TRUE)), keyby = .(YEAR, FISHERY_CODE, FISHERY, FLEET_CODE, FLEET, AREA_CODE)]
 
 # DEEP-FREEZING LONGLINE ####
-EF_LLD = EF_LL_HOOKS_YEAR_FLEET_AREA[!is.na(AREA_CODE) & FISHERY_CODE == "LLD"]
+# Focus on the 3 main areas
+EF_LLD = EF_LL_HOOKS_YEAR_FLEET_AREA[!is.na(AREA_CODE) & AREA_CODE != "A0 - All other" & FISHERY_CODE == "LLD"]
 EF_LLD[, EFFORT := EFFORT/1e6]
 EF_LLD[, EFFORT_STD := EFFORT/mean(EFFORT), by = .(FLEET_CODE, AREA_CODE)]
 
@@ -38,7 +39,7 @@ EF_LLD_YEAR_FLEET_QUANTILES = EF_LLD[, .(EFFORT_QLOW = quantile(EFFORT, 0.05), E
 FLEET_COLORS = fleet_colors_for(EF_LLD)
 
 ## Non-standardized effort ####
-EF_LLD_YEAR_FLEET_LINEPLOT_FACETED =
+EF_LLD_YEAR_FLEET_AREA_LINEPLOT_FACETED =
 ggplot(data = EF_LLD, aes(x  = YEAR, y = EFFORT)) + 
   labs(x = "", y = "Fishing effort (million hooks)") + 
   geom_point(shape = 21, size = 0.7, stroke = 0.7, aes(color = FLEET_CODE)) + 
@@ -50,10 +51,10 @@ ggplot(data = EF_LLD, aes(x  = YEAR, y = EFFORT)) +
   facet_grid(vars(FLEET), vars(AREA_CODE), scales = "free_y") +
   theme(strip.background = element_blank(), panel.border = element_rect(colour = "black", fill = NA), strip.text.x = element_text(hjust = 0), legend.position = "none", panel.grid.minor = element_line(linetype = "dashed"))
 
-ggsave("../outputs/charts/EFFORT/EF_LLD_YEAR_FLEET_LINEPLOT_FACETED.png", EF_LLD_YEAR_FLEET_LINEPLOT_FACETED, width = 8, height = 6)
+ggsave(paste0("../outputs/charts/EFFORT/", WPTT_SPECIES, "/EF_LLD_YEAR_FLEET_LINEPLOT_FACETED.png"), EF_LLD_YEAR_FLEET_AREA_LINEPLOT_FACETED, width = 8, height = 6)
 
 ## Standardized effort ####
-EF_STD_LLD_YEAR_FLEET_LINEPLOT_FACETED =
+EF_STD_LLD_YEAR_FLEET_AREA_LINEPLOT_FACETED =
   ggplot(data = EF_LLD, aes(x  = YEAR, y = EFFORT_STD)) + 
   labs(x = "", y = "Standardized fishing effort") + 
   geom_point(shape = 21, size = 0.7, stroke = 0.7, aes(color = FLEET_CODE)) + 
@@ -65,18 +66,18 @@ EF_STD_LLD_YEAR_FLEET_LINEPLOT_FACETED =
   facet_grid(vars(FLEET), vars(AREA_CODE), scales = "free_y") +
   theme(strip.background = element_blank(), panel.border = element_rect(colour = "black", fill = NA), strip.text.x = element_text(hjust = 0), legend.position = "none", panel.grid.minor = element_line(linetype = "dashed"))
 
-ggsave("../outputs/charts/EFFORT/EF_STD_LLD_YEAR_FLEET_LINEPLOT_FACETED.png", EF_STD_LLD_YEAR_FLEET_LINEPLOT_FACETED, width = 8, height = 6)
+ggsave(paste0("../outputs/charts/EFFORT/", WPTT_SPECIES, "/EF_STD_LLD_YEAR_FLEET_LINEPLOT_FACETED.png"), EF_STD_LLD_YEAR_FLEET_AREA_LINEPLOT_FACETED, width = 8, height = 6)
 
 # FRESH LONGLINE ####
 
-EF_LLF = EF_LL_HOOKS_YEAR_FLEET_AREA[!is.na(AREA_CODE) & FISHERY_CODE == "LLF"]
+EF_LLF = EF_LL_HOOKS_YEAR_FLEET_AREA[!is.na(AREA_CODE) & AREA_CODE != "A0 - All other" & FISHERY_CODE == "LLF"]
 EF_LLF[, EFFORT := EFFORT/1e6]
 EF_LLF[, EFFORT_STD := EFFORT/mean(EFFORT), by = .(FLEET_CODE, AREA_CODE)]
 
 EF_LLF_YEAR_FLEET_QUANTILES = EF_LLF[, .(EFFORT_QLOW = quantile(EFFORT, 0.05), EFFORT_QHIGH = quantile(EFFORT, 0.95), EFFORT_STD_QLOW = quantile(EFFORT_STD, 0.05), EFFORT_STD_QHIGH = quantile(EFFORT_STD, 0.95)), keyby = .(FLEET_CODE, FLEET, AREA_CODE)]
 
 ## Non-standardized effort ####
-EF_LLF_YEAR_FLEET_LINEPLOT_FACETED =
+EF_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED =
   ggplot(data = EF_LLF, aes(x  = YEAR, y = EFFORT)) + 
   labs(x = "", y = "Fishing effort (million hooks)") + 
   geom_point(shape = 21, size = 0.7, stroke = 0.7, aes(color = FLEET_CODE)) + 
@@ -88,10 +89,10 @@ EF_LLF_YEAR_FLEET_LINEPLOT_FACETED =
   facet_grid(vars(FLEET), vars(AREA_CODE), scales = "free_y") +
   theme(strip.background = element_blank(), panel.border = element_rect(colour = "black", fill = NA), strip.text.x = element_text(hjust = 0), legend.position = "none", panel.grid.minor = element_line(linetype = "dashed"))
 
-ggsave("../outputs/charts/EFFORT/EF_LLF_YEAR_FLEET_LINEPLOT_FACETED.png", EF_LLF_YEAR_FLEET_LINEPLOT_FACETED, width = 8, height = 3)
+ggsave(paste0("../outputs/charts/EFFORT/", WPTT_SPECIES, "/EF_LLF_YEAR_FLEET_LINEPLOT_FACETED.png"), EF_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED, width = 8, height = 3)
 
 ## Standardized effort ####
-EF_STD_LLF_YEAR_FLEET_LINEPLOT_FACETED =
+EF_STD_LLF_YEAR_AREA_FLEET_LINEPLOT_FACETED =
   ggplot(data = EF_LLF, aes(x  = YEAR, y = EFFORT_STD)) + 
   labs(x = "", y = "Standardized fishing effort") + 
   geom_point(shape = 21, size = 0.7, stroke = 0.7, aes(color = FLEET_CODE)) + 
@@ -103,6 +104,6 @@ EF_STD_LLF_YEAR_FLEET_LINEPLOT_FACETED =
   facet_grid(vars(FLEET), vars(AREA_CODE), scales = "free_y") +
   theme(strip.background = element_blank(), panel.border = element_rect(colour = "black", fill = NA), strip.text.x = element_text(hjust = 0), legend.position = "none", panel.grid.minor = element_line(linetype = "dashed"))
 
-ggsave("../outputs/charts/EFFORT/EF_STD_LLF_YEAR_FLEET_LINEPLOT_FACETED.png", EF_STD_LLF_YEAR_FLEET_LINEPLOT_FACETED, width = 8, height = 3)
+ggsave(paste0("../outputs/charts/EFFORT/", WPTT_SPECIES, "/EF_STD_LLF_YEAR_FLEET_LINEPLOT_FACETED.png"), EF_STD_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED, width = 8, height = 3)
 
-l_info("Longline effort effort indicators computed", "TROPICAL TUNAS")
+l_info("Longline effort indicators by assessment area computed", WPTT_SPECIES)
