@@ -64,6 +64,7 @@ SF_STRATA = SF_STRATA[, .(MT = sum(MT)), keyby = .(YEAR, STATUS, AW_FISHERY)]
 ## Extract catch data
 SPECIES_CA_RAISED = CA.raised(species_codes = WPTT_SPECIES)
 
+## AVERAGE WEIGHTS IN SAMPLED FISHERIES FOR THE WHOLE INDIAN OCEAN ####
 SF = SPECIES_CA_RAISED[, .(YEAR, FISHERY_CODE, FLEET_CODE, CATCH, CATCH_IN_NUMBERS)]
 
 SFA = SF[, .(AVG_WEIGHT = sum(CATCH * 1000) / sum(CATCH_IN_NUMBERS)), keyby = .(YEAR)]
@@ -82,5 +83,49 @@ SFF = SFF[, .(CATCH = sum(CATCH), CATCH_IN_NUMBERS = sum(CATCH_IN_NUMBERS)), key
 
 # Add strata with annual sample weight
 SFF2 = merge(SFF, SF_STRATA[STATUS == "ORIGINAL"], by = c("YEAR", "AW_FISHERY"), all.x = TRUE)
+
+# Computing average weight
+SFF2[, AVG_WEIGHT := CATCH * 1000 / CATCH_IN_NUMBERS]
+
+# Filters out all records for which SF was available, but only from strata covering less than 50 t of catches in total (the threshold is arbitrary)  
+SFF2[, LOW_COVERAGE := ( is.na(MT) | MT < 50 )]
+
+SFF2 = SFF2[, .(YEAR, AW_FISHERY, AVG_WEIGHT, LOW_COVERAGE)]
+
+SFF2 = rbind(SFF2, SFA)
+
+# Number of records
+SFF_FISHERIES_WITH_DATA = SFF2[LOW_COVERAGE == FALSE, .(NUM_RECORDS = .N), keyby = .(AW_FISHERY)]
+
+## AVERAGE WEIGHTS BY ASSESSMENT AREA ####
+
+# Add stock assessment areas
+SA_AREAS_MAPPING = iotc.core.gis.cwp.IO::grid_intersections_by_source_grid_type(target_grid_codes = SA_AREAS_CONFIG$IOTC_CODE, source_grid_type_code = grid_5x5)
+
+SPECIES_CA_RAISED_SA = merge(SPECIES_CA_RAISED, SA_AREAS_MAPPING,
+                             by.x = "FISHING_GROUND_CODE",
+                             by.y = "SOURCE_FISHING_GROUND_CODE",
+                             all.x = TRUE,
+                             allow.cartesian = TRUE)
+
+SPECIES_CA_RAISED_SA[!is.na(PROPORTION), `:=` (CATCH = CATCH * PROPORTION, CATCH_IN_NUMBERS = CATCH_IN_NUMBERS * PROPORTION)]
+
+SPECIES_CA_RAISED_SA_YEAR = SPECIES_CA_RAISED_SA[, .(CATCH = sum(CATCH, na.rm = TRUE), CATCH_IN_NUMBERS = sum(CATCH_IN_NUMBERS, ma.rm = TRUE)),
+                                                 keyby = .(YEAR, 
+                                                           FLEET_CODE, FLEET, 
+                                                           GEAR_CODE, GEAR,
+                                                           FISHERY_TYPE_CODE, FISHERY_TYPE,
+                                                           FISHERY_GROUP_CODE, FISHERY_GROUP,
+                                                           FISHERY_CODE, FISHERY,
+                                                           AREA_CODE = TARGET_FISHING_GROUND_CODE)]
+
+SPECIES_CA_RAISED_SA_YEAR[, AREA_CODE := factor(AREA_CODE, levels = SA_AREAS_CONFIG$IOTC_CODE, labels = SA_AREAS_CONFIG$AREA_NAME, ordered = TRUE)]
+
+# Add SF fisheries and filter on them
+SFF3 = update_fisheries_for_SF(SPECIES_CA_RAISED_SA_YEAR)[!is.na(AW_FISHERY)]
+
+# Compute annual average weight
+SFF3[, AVG_WEIGHT := round(CATCH * 1000 / CATCH_IN_NUMBERS, 2)]
+SFF3[, AVG_WEIGHT_STD := AVG_WEIGHT/mean(AVG_WEIGHT), by = .(AW_FISHERY, AREA_CODE)]
 
 l_info("Average weight data extracted...", WPTT_SPECIES)
