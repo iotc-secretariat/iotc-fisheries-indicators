@@ -1,0 +1,199 @@
+---
+title: "Fisheries Indicators for Indian Ocean tropical tuna"
+subtitle: "24^th^ IOTC Working Party on Tropical Tunas, 24-29 October 2022"
+author: "[IOTC Secretariat](mailto:IOTC-Secretariat@fao.org)"
+---
+  
+```{r general_options, echo = FALSE}
+knitr::opts_chunk$set(echo = FALSE, tidy.opts = list(width.cutoff = 60), tidy = TRUE, size = "small", fig.width = 12, fig.height = 6.75)
+```
+
+## Purpose
+
+To provide participants at the 24^th^ Session of the IOTC Working Party on Tropical Tunas (WPTT24) with an overview of fisheries indicators for the three tropical species based on the data available to the IOTC Secretariat as of October 2022.
+
+---
+
+# Fishing capacity
+
+---
+
+## Fishery vessels
+
+```{r AnnualNumberVessels, fig.cap = "Annual estimated number of active vessels larger than 24 m length overall by fishery group, 2010-2021. Gillnetters not included in absence of consistent information reported to the Secretariat. Source: [IOTC AVL](https://iotc.org/sites/default/files/documents/compliance/vessel_lists/GetActiveVesselListE.zip)"}
+include_graphics("../outputs/charts/CAPACITY/VESSELS_YEAR_FISHERY_GROUP_LINEPLOT_FACETED.png")
+```
+
+---
+
+## Large-scale purse seine fleet
+
+```{r PSLengthComposition, fig.cap = "Annual changes in number and size composition (length overall; m) of the large-scale purse seiners, 2002-2021"}
+include_graphics("../outputs/charts/CAPACITY/PS/ANNUAL_PS_LOA_CLASS_COMBINED.png")
+```
+
+---
+
+## Large-scale purse seine fleet
+
+```{r PSMeanLength, fig.cap = "Annual changes in mean size (length overall; m) of the large-scale purse seiners, 2002-2021"}
+include_graphics("../outputs/charts/CAPACITY/PS/ANNUAL_PS_MEAN_LOA_LINEPLOT.png")
+```
+
+---
+
+## Support vessels fleet
+
+```{r SPLengthComposition, fig.cap = "Annual changes in number and size composition (length overall; m) of the PS support vessels, 2004-2021"}
+include_graphics("../outputs/charts/CAPACITY/PS/ANNUAL_SP_LOA_CLASS_COMBINED.png")
+```
+
+---
+
+## Support vessels fleet
+
+```{r SPMeanLength, fig.cap = "Annual changes in mean size (length overall; m) of the PS support vessels, 2004-2021"}
+include_graphics("../outputs/charts/CAPACITY/PS/ANNUAL_SP_MEAN_LOA_LINEPLOT.png")
+```
+
+---
+
+# Fishing effort
+
+---
+
+## Trends in nominal effort
+
+```{r AnnualNominalEffort, fig.cap = "Annual changes in estimated nominal effort (standardised to the mean) for some fisheries, 1952-2021. MDV = Maldives; LKA = Sri Lanka; ASIAN-LL = China, Korea, and Taiwan,China; EU-ASS = Spain, France and Seychelles"}
+include_graphics("../outputs/charts/EFFORT/ALL/EF_STD_YEAR_FLEET_LINEPLOT_FACETED.png")
+```
+
+---
+
+## Effort: Deep-freezing longline fisheries
+
+```{r LLDEffortBETArea, fig.cap = "Annual changes in LLD nominal effort (standardised to the mean) by main BET area, 1952-2021"}
+include_graphics("../outputs/charts/EFFORT/BET/EF_STD_LLD_YEAR_FLEET_LINEPLOT_FACETED.png")
+```
+
+---
+
+## Effort: Fresh longline fisheries
+
+```{r LLFEffortBETArea, fig.cap = "Annual changes in LLF nominal effort (standardised to the mean) by main BET area, 2006-2021"}
+include_graphics("../outputs/charts/EFFORT/BET/EF_STD_LLF_YEAR_FLEET_LINEPLOT_FACETED.png")
+```
+
+---
+
+# Bigeye tuna
+
+---
+
+## Trends in nominal catch
+
+```{r BETCatchTrendsByFishery, fig.cap = "Annual nominal catches (standardised to the mean) by fishery, 1952-2021"}
+include_graphics("../outputs/charts/CATCH/BET/NC_STD_YEAR_FISHERY_LINEPLOT_FACETED.png")
+```
+
+---
+
+## Trends in CPUE: Deep-freezing longline
+
+```{r BETCPUELLD, fig.cap = "Annual nominal CPUE (standardised to the mean) of BET in LLD fisheries by main fleet and area"}
+include_graphics("../outputs/charts/CPUE/BET/CPUE_STD_LLD_YEAR_FLEET_LINEPLOT_FACETED.png")
+```
+
+---
+
+## Trends in CPUE: Fresh longline
+
+```{r BETCPUELLF, fig.cap = "Annual nominal CPUE (standardised to the mean) of BET in LLF fisheries by main fleet and area"}
+include_graphics("../outputs/charts/CPUE/BET/CPUE_STD_LLF_YEAR_FLEET_LINEPLOT_FACETED.png")
+```
+
+---
+
+## Trends in average weight: Main fisheries
+
+```{r BETAWFishery, fig.cap = "Annual estimated average weights (standardised to the mean) of BET by fishery"}
+include_graphics("../outputs/charts/AW/BET/AW_STD_YEAR_FISHERY_LINEPLOT_FACETED.png")
+```
+
+---
+
+## Trends in average weight: Longline by area
+
+```{r BETAWLLArea, fig.cap = "Annual estimated average weights (standardised to the mean) of BET by main longline fishery and area "}
+include_graphics("../outputs/charts/AW/BET/AW_STD_YEAR_FISHERY_AREA_LINEPLOT_FACETED.png")
+```
+
+---
+
+# Skipjack tuna
+
+---
+
+## Trends in nominal catch
+
+```{r SKJCatchTrendsByFishery, fig.cap = "Annual nominal catches (standardised to the mean) of SKJ by fishery"}
+include_graphics("../outputs/charts/CATCH/SKJ/NC_STD_YEAR_FISHERY_LINEPLOT_FACETED.png")
+```
+
+---
+
+## Trends in average weight: Main fisheries
+
+```{r SKJAWFishery, fig.cap = "Annual estimated average weights (standardised to the mean) of SKJ by fishery"}
+include_graphics("../outputs/charts/AW/SKJ/AW_STD_YEAR_FISHERY_LINEPLOT_FACETED.png")
+```
+
+---
+
+# Yellowfin tuna
+
+---
+
+## Trends in nominal catch
+
+```{r YFTCatchTrendsByFishery, fig.cap = "Annual nominal catches (standardised to the mean) of YFT by fishery"}
+include_graphics("../outputs/charts/CATCH/YFT/NC_STD_YEAR_FISHERY_LINEPLOT_FACETED.png")
+```
+
+---
+
+## Trends in CPUE: Deep-freezing longline
+
+```{r YFTCPUELLD, fig.cap = "Annual nominal CPUE (standardised to the mean) of YFT in LLD fisheries by main fleet and area"}
+include_graphics("../outputs/charts/CPUE/YFT/CPUE_STD_LLD_YEAR_FLEET_LINEPLOT_FACETED.png")
+```
+
+---
+
+## Trends in CPUE: Fresh longline
+
+```{r YFTCPUELLF, fig.cap = "Annual nominal CPUE (standardised to the mean) of YFT in LLF fisheries by main fleet and area"}
+include_graphics("../outputs/charts/CPUE/YFT/CPUE_STD_LLF_YEAR_FLEET_LINEPLOT_FACETED.png")
+```
+
+---
+
+## Trends in average weight: Main fisheries
+
+```{r YFTAWFishery, fig.cap = "Annual estimated average weights (standardised to the mean) of YFT by fishery"}
+include_graphics("../outputs/charts/AW/YFT/AW_STD_YEAR_FISHERY_LINEPLOT_FACETED.png")
+```
+
+---
+
+## Trends in average weight: Longline by area
+
+```{r YFTAWLLArea, fig.cap = "Annual estimated average weights (standardised to the mean) of YFT by main longline fishery and area "}
+include_graphics("../outputs/charts/AW/YFT/AW_STD_YEAR_FISHERY_AREA_LINEPLOT_FACETED.png")
+```
+
+---
+
+
+
+
