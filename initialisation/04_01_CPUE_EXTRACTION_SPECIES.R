@@ -1,5 +1,8 @@
 # CPUE ####
 
+# Add assessment areas
+SA_AREAS_MAPPING = iotc.core.gis.cwp.IO::grid_intersections_by_source_grid_type(target_grid_codes = SA_AREAS_CONFIG$IOTC_CODE, source_grid_type_code = grid_5x5)
+
 ## RAW CATCH AND EFFORT ####
 CE_RAW = CE_raw(species_codes = WPTT_SPECIES)
 

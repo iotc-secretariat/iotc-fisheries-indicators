@@ -36,7 +36,7 @@ AW_YEAR_FISHERY_LINEPLOT_FACETED =
              facets = ~AW_FISHERY, dir = "h") +
   labs(x = "", y = "Average weight (kg/fish)")
 
-ggsave(paste0("../outputs/charts/AW/", WPTT_SPECIES, "/AW_YEAR_FISHERY_LINEPLOT_FACETED.png"), AW_YEAR_FISHERY_LINEPLOT_FACETED, width = 10, height = 4.5/8*10)
+ggsave(paste0("../outputs/charts/AW/", WPTT_SPECIES, "/AW_YEAR_FISHERY_LINEPLOT_FACETED.png"), AW_YEAR_FISHERY_LINEPLOT_FACETED, width = 12, height = 4.5/8*10)
 
 ## Standardized weights ####
 AW_STD_YEAR_FISHERY_LINEPLOT_FACETED = 
@@ -60,6 +60,6 @@ AW_STD_YEAR_FISHERY_LINEPLOT_FACETED =
              facets = ~AW_FISHERY, dir = "h") +
   labs(x = "", y = "Standardised average weight")
 
-ggsave(paste0("../outputs/charts/AW/", WPTT_SPECIES, "/AW_STD_YEAR_FISHERY_LINEPLOT_FACETED.png"), AW_STD_YEAR_FISHERY_LINEPLOT_FACETED, width = 10, height = 4.5/8*10)
+ggsave(paste0("../outputs/charts/AW/", WPTT_SPECIES, "/AW_STD_YEAR_FISHERY_LINEPLOT_FACETED.png"), AW_STD_YEAR_FISHERY_LINEPLOT_FACETED, width = 13, height = 4.5/8*10)
 
 l_info("Average weight indicator computed", WPTT_SPECIES)

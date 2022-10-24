@@ -63,10 +63,10 @@ CPUE_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED =
 
 ggsave(paste0("../outputs/charts/CPUE/", WPTT_SPECIES, "/CPUE_LLF_YEAR_FLEET_LINEPLOT_FACETED.png"), CPUE_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED, width = 8, height = 4)
 
-## Standardized effort ####
+## Standardized CPUE ####
 CPUE_STD_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED =
   ggplot(data = CE_LLF, aes(x  = YEAR, y = CPUE_STD)) + 
-  labs(x = "", y = "CPUE (t/1,000 hooks)") + 
+  labs(x = "", y = "Standardised CPUE") + 
   geom_point(shape = 21, size = 0.7, stroke = 0.7, aes(color = FLEET)) + 
   geom_line(aes(color = FLEET)) + 
   geom_hline(data = CPUE_LLF_YEAR_FLEET_QUANTILES, aes(yintercept = CPUE_STD_QLOW, color = FLEET), linetype = "dashed") + 
