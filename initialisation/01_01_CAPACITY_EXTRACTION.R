@@ -42,16 +42,54 @@ ACTIVE_SP_RAW[, IOTC_NUMBER := as.integer(gsub("IOTC", "", IOTC_CODE))]
 ACTIVE_LL_RAW = data.table(dbGetQuery(DB_RAV(), "
 SELECT DISTINCT RefYear AS YEAR, 
 		VRVesselKey AS IOTC_NUMBER, 
-		VesselName AS VESSEL_NAME, 
-		GearType AS GEAR, 
-		VesselType AS VESSEL_TYPE, 
-		FlagCountry AS FLEET_CODE, LOA, GT
-  FROM dbo.VR_ListActiveVessels
+		LTRIM(RTRIM(VesselName)) AS VESSEL_NAME, 
+		LTRIM(RTRIM(GearType)) AS GEAR, 
+		LTRIM(RTRIM(VesselType)) AS VESSEL_TYPE, 
+		LTRIM(RTRIM(v.FlagCountry)) AS FLEET_CODE, 
+		LTRIM(RTRIM(c.FlagName_e)) AS FLEET, 
+		LOA, GT
+  FROM dbo.VR_ListActiveVessels v LEFT JOIN dbo.VR_0cdeFlagCountry c ON (LTRIM(RTRIM(v.FlagCountry)) = LTRIM(RTRIM((c.FlagCountry))))
   WHERE RefYear BETWEEN 2002 AND 2021
   AND VesselType NOT IN ('PS', 'SP', 'RT', 'CF', 'BB', 'GI', 'TW')
   AND GearType NOT IN ('LINE', 'HAND', 'TROL', 'PSS', 'BB', 'TRAW', 'PS', 'SUPP', 'GILL', 'HABB', 'BBLI', 'SJIG')
   AND (LOA IS NULL OR LOA > =24)
   AND VesselName NOT IN ('TAIKEI MARU NO.1', 'KOOSHA-2', 'JALPAREE-1', 'IMULA1468MTR', 'SIRAF', 'KAVEH 1', 'OCEAN DYNASTY', 'DELAMERE', 'INDEPENDENCE')
+                                      ;"))
+
+# GILLNETTERS ####
+# Information not available from many CPCs
+ACTIVE_GN_RAW = data.table(dbGetQuery(DB_RAV(), "
+SELECT DISTINCT RefYear AS YEAR, 
+		VRVesselKey AS IOTC_NUMBER, 
+		VesselName AS VESSEL_NAME, 
+		GearType AS GEAR, 
+		VesselType AS VESSEL_TYPE, 
+		v.FlagCountry AS FLEET_CODE, 
+		c.FlagName_e AS FLEET,
+		LOA, GT
+  FROM dbo.VR_ListActiveVessels v LEFT JOIN dbo.VR_0cdeFlagCountry c ON (LTRIM(RTRIM(v.FlagCountry)) = LTRIM(RTRIM((c.FlagCountry))))
+  WHERE RefYear BETWEEN 2002 AND 2021
+  AND VesselType NOT IN ('PS', 'SP', 'RT', 'CF', 'BB', 'TW', 'LL')
+  AND GearType NOT IN ('LINE', 'HAND', 'TROL', 'PSS', 'BB', 'TRAW', 'PS', 'SUPP', 'LL', 'HABB', 'BBLI', 'SJIG')
+  AND (LOA IS NULL OR LOA > =24)
+  ;"))
+
+# BAITBOATS ####
+# Consistent information available from Maldives from 2015
+# Not available from ZAF unless the vessels are less than 24 m
+ACTIVE_BB_RAW = data.table(dbGetQuery(DB_RAV(), "
+SELECT DISTINCT RefYear AS YEAR, 
+		VRVesselKey AS IOTC_NUMBER, 
+		VesselName AS VESSEL_NAME, 
+		GearType AS GEAR, 
+		VesselType AS VESSEL_TYPE, 
+		v.FlagCountry AS FLEET_CODE, 
+		c.FlagName_e AS FLEET, 
+		LOA, GT
+  FROM dbo.VR_ListActiveVessels v LEFT JOIN dbo.VR_0cdeFlagCountry c ON (LTRIM(RTRIM(v.FlagCountry)) = LTRIM(RTRIM((c.FlagCountry))))
+  WHERE RefYear BETWEEN 2002 AND 2021
+  AND (VesselType LIKE 'BB' OR GearType IN ('HABB', 'BBLI'))
+  AND (LOA IS NULL OR LOA > =24)
   ;"))
 
 l_info("Data extraction initialized")

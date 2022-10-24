@@ -5,7 +5,7 @@ l_info("Consolidating information on active purse seiners...")
 ACTIVE_PS = copy(ACTIVE_PS_RAW)
 
 # Format the year
-ACTIVE_PS[, YEAR := as.numeric(YEAR)]
+ACTIVE_PS[, YEAR := as.integer(YEAR)]
 
 # Remove Japanese purse seiners except for NIPPON MARU for 2002 (Y:\04 - Meetings\05 - Scientific Committee\SC06 - 2003 - Seychelles\Documents\IOTC-SC-03-Inf.4)
 ACTIVE_PS = ACTIVE_PS[!(YEAR == 2002 & FLEET == "Japan" & VESSEL_NAME != "NIPPON MARU")]
@@ -50,7 +50,7 @@ ACTIVE_PS[VESSEL_NAME == "PLAYA DE ARITZATXU", `:=` (IOTC_CODE = "IOTC000187", L
 ACTIVE_PS[VESSEL_NAME == "PLAYA DE NOJA", `:=` (IOTC_CODE = "IOTC000176", LOA = 77.3, GT = 2110)] #same IOTC number as FELIPE RUANO?
 
 # Harmonize gear and vessel type
-ACTIVE_PS[, `:=` (GEAR_CODE = "PS", GEAR = "Purse seine")]
+ACTIVE_PS[, `:=` (FISHERY_GROUP_CODE = "PS", GEAR = "Purse seine")]
 ACTIVE_PS[, VESSEL_TYPE := "Purse seiner"]
 
 # Harmonize LOA and GT
@@ -169,7 +169,7 @@ PS_GT_LOA_PLOT =
   geom_point(color = alpha("red", 0.5)) + 
   labs(x = "Length overall (m)", y = "Gross tonnage (t)") + 
   scale_y_continuous(labels = function(x) prettyNum(x, big.mark = ",")) + 
-theme_bw()
+  theme_bw()
 
 NEWD = data.table(ACTIVE_PS[is.na(GT), .(IOTC_CODE, LOA)])
 NEWD[, GT := predict.lm(LM_PS_GT_LOA, NEWD)]
@@ -185,7 +185,7 @@ ACTIVE_PS = ACTIVE_PS[!(YEAR == 2020 & IOTC_CODE %in% c("IOTC000358", "IOTC00035
 ACTIVE_SP = copy(ACTIVE_SP_RAW)
 
 # Format the year
-ACTIVE_SP[, YEAR := as.numeric(YEAR)]
+ACTIVE_SP[, YEAR := as.integer(YEAR)]
 
 # Correct error in IOTC number
 ACTIVE_SP[IOTC_CODE == "IOTC016116", IOTC_CODE := "IOTC015116"]
@@ -195,7 +195,7 @@ ACTIVE_SP[, VESSEL_NAME := trimws(VESSEL_NAME)]
 
 # Harmonize gear and vessel type
 
-ACTIVE_SP[, `:=` (GEAR = "Supply Vessel Purse Seiners", GEAR_CODE = "SUPP")]
+ACTIVE_SP[, `:=` (GEAR = "Supply Vessel Purse Seiners", FISHERY_GROUP_CODE = "SP")]
 ACTIVE_SP[, VESSEL_TYPE := "Supply vessel (purse seiners)"]
 
 # Harmonize LOA and GT
@@ -222,11 +222,11 @@ ACTIVE_SP[IOTC_CODE == "IOTC004976", `:=` (GT = 235)]   #https://www.vesselfinde
 
 ACTIVE_LL_AVL = copy(ACTIVE_LL_RAW)
 
-ACTIVE_LL_AVL[, GEAR := trimws(toupper(GEAR))]
-ACTIVE_LL_AVL[, VESSEL_TYPE := trimws(toupper(VESSEL_TYPE))]
-ACTIVE_LL_AVL[, VESSEL_TYPE := trimws(VESSEL_TYPE)]
-ACTIVE_LL_AVL[, VESSEL_NAME := trimws(VESSEL_NAME)]
-ACTIVE_LL_AVL[, FLEET_CODE  := trimws(FLEET_CODE)]
+# Format the year
+ACTIVE_LL_AVL[, YEAR := as.integer(YEAR)]
+
+ACTIVE_LL_AVL[, GEAR := toupper(GEAR)]
+ACTIVE_LL_AVL[, VESSEL_TYPE := toupper(VESSEL_TYPE)]
 
 ACTIVE_LL_AVL[VESSEL_NAME == "No. 638 DONG WON", IOTC_NUMBER := 1381]
 ACTIVE_LL_AVL[VESSEL_TYPE == "LC", `:=` (GEAR = "LL", VESSEL_TYPE = "LL")]
@@ -258,5 +258,39 @@ ACTIVE_LL[YEAR<2015 & GEAR == "LL" & VESSEL_TYPE == "UN", `:=` (GEAR = "LL", VES
 IOTC_NUMBERS_LONGLINERS = unique(ACTIVE_LL[VESSEL_TYPE == "LL", IOTC_NUMBER])
 
 ACTIVE_LL[VESSEL_TYPE == "UN" & IOTC_NUMBER %in% IOTC_NUMBERS_LONGLINERS, `:=` (GEAR = "LL", VESSEL_TYPE = "LL")]
+
+# Remove all Iranian vessels of unknown vessel type, suspected to be gillnetters
+ACTIVE_LL = ACTIVE_LL[!(VESSEL_TYPE == "UN" & FLEET_CODE == "IRN")]
+
+# Remove all Maldivian vessels of unknown vessel type suspected to be baitboats
+ACTIVE_LL = ACTIVE_LL[!(VESSEL_TYPE == "UN" & FLEET_CODE == "MDV")]
+
+# Add gear_code
+ACTIVE_LL[, FISHERY_GROUP_CODE := "LL"]
+
+# Format Vessel type and gear
+ACTIVE_LL[, `:=` (GEAR = "Longline", VESSEL_TYPE = "Longliner")]
+
+# POLE AND LINERS ####
+ACTIVE_BB = copy(ACTIVE_BB_RAW)
+
+# Format the year
+ACTIVE_BB[, YEAR := as.integer(YEAR)]
+
+ACTIVE_BB[, GEAR := trimws(toupper(GEAR))]
+ACTIVE_BB[, VESSEL_TYPE := trimws(toupper(VESSEL_TYPE))]
+ACTIVE_BB[, VESSEL_TYPE := trimws(VESSEL_TYPE)]
+ACTIVE_BB[, VESSEL_NAME := trimws(VESSEL_NAME)]
+ACTIVE_BB[, FLEET_CODE  := trimws(FLEET_CODE)]
+
+# Add gear_code
+ACTIVE_BB[, FISHERY_GROUP_CODE := "BB"]
+
+# Harmonize gears
+ACTIVE_BB[, `:=` (GEAR = "Pole and line", VESSEL_TYPE = "Baitboat")]
+
+# AGGREGATE ALL VESSEL TYPES ####
+
+ACTIVE_VESSELS = rbindlist(list(ACTIVE_PS[, -c("IOTC_CODE")], ACTIVE_SP[, -c("IOTC_CODE")], ACTIVE_LL[, -c("FLEET_CODE")], ACTIVE_BB[YEAR>2014, -c("FLEET_CODE")]), use.names = TRUE)
 
 l_info("Information on purse seiners consolidated!")
