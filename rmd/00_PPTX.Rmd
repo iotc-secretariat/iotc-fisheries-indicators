@@ -64,7 +64,7 @@ include_graphics("../outputs/charts/CAPACITY/PS/ANNUAL_SP_MEAN_LOA_LINEPLOT.png"
 
 ## Trends in nominal effort
 
-```{r AnnualNominalEffort, fig.cap = "Annual changes in estimated nominal effort (standardised to the mean) for some fisheries, 1952-2021. MDV = Maldives; LKA = Sri Lanka; ASIAN-LL = China, Korea, and Taiwan,China; EU-ASS = Spain, France and Seychelles"}
+```{r AnnualNominalEffort, fig.cap = "Annual changes in estimated nominal effort (standardised to the mean) for some fisheries, 1952-2021. MDV = Maldives; LKA = Sri Lanka; ASIAN-LL = China, Korea, and Taiwan,China; EU-SYC = Spain, France and Seychelles"}
 include_graphics("../outputs/charts/EFFORT/ALL/EF_STD_YEAR_FLEET_LINEPLOT_FACETED.png")
 ```
 
