@@ -55,11 +55,11 @@ ggplot(data = PS_ANNUAL_NUMBER, aes(x = YEAR, y = N)) +
   theme(panel.grid.minor = element_line(colour = "darkgrey", linetype = "dashed", size = 0.1))
 
 ### HTML ####
-PS_ANNUAL_NUMBER_LINEPLOT_HTML = 
-  plot_ly(data = PS_ANNUAL_NUMBER, x = ~YEAR, y = ~N, type = 'scatter', mode = 'lines+markers', line = list(color = "red", width = 2), marker = list(color = "red", size = 10)) %>% 
-  layout(title = "Annual changes in number of purse seiners", yaxis = list(title = "Number of vessels"), xaxis = list(title = ""), plot_bgcolor = "lighgrey")
+#PS_ANNUAL_NUMBER_LINEPLOT_HTML = 
+#  plot_ly(data = PS_ANNUAL_NUMBER, x = ~YEAR, y = ~N, type = 'scatter', mode = 'lines+markers', line = list(color = "red", width = 2), marker = list(color = "red", size = 10)) %>% 
+#  layout(title = "Annual changes in number of purse seiners", yaxis = list(title = "Number of vessels"), xaxis = list(title = ""), plot_bgcolor = "lighgrey")
 
-htmlwidgets::saveWidget(PS_ANNUAL_NUMBER_LINEPLOT_HTML, "../outputs/charts/CAPACITY/PS/PS_ANNUAL_NUMBER_LINEPLOT_HTML.html")
+#htmlwidgets::saveWidget(PS_ANNUAL_NUMBER_LINEPLOT_HTML, "../outputs/charts/CAPACITY/PS/PS_ANNUAL_NUMBER_LINEPLOT_HTML.html")
 
 ## Number of purse seiners by capacity category ####
 GT_BREAKS = c(300, 1000, 2000, 3000, 4000, 5000)
