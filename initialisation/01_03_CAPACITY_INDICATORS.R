@@ -97,11 +97,11 @@ save_plot("../outputs/charts/CAPACITY/PS/ANNUAL_PS_MEAN_GT_LINEPLOT.png", ANNUAL
 
 ### HTML ####
 
-ANNUAL_PS_MEAN_GT_LINEPLOT_HTML = 
-  plot_ly(data = PS_MEAN_LOA_GT_YEAR, x = ~YEAR, y = ~GT, type = 'scatter', mode = 'lines+markers', line = list(color = "red", width = 2), marker = list(color = "red", size = 10)) %>% 
-  layout(title = "Annual changes in mean gross tonnage", yaxis = list(title = "Mean gross tonnage"), xaxis = list(title = ""), plot_bgcolor = "lighgrey")
+#ANNUAL_PS_MEAN_GT_LINEPLOT_HTML = 
+#  plot_ly(data = PS_MEAN_LOA_GT_YEAR, x = ~YEAR, y = ~GT, type = 'scatter', mode = 'lines+markers', line = list(color = "red", width = 2), marker = list(color = "red", size = 10)) %>% 
+#  layout(title = "Annual changes in mean gross tonnage", yaxis = list(title = "Mean gross tonnage"), xaxis = list(title = ""), plot_bgcolor = "lighgrey")
 
-htmlwidgets::saveWidget(ANNUAL_PS_MEAN_GT_LINEPLOT_HTML, "../outputs/charts/CAPACITY/PS/ANNUAL_PS_MEAN_GT_LINEPLOT.html")
+#htmlwidgets::saveWidget(ANNUAL_PS_MEAN_GT_LINEPLOT_HTML, "../outputs/charts/CAPACITY/PS/ANNUAL_PS_MEAN_GT_LINEPLOT.html")
 
 ## Numbers of purse seiners by length overall
 LOA_BREAKS = c(50, 65, 80, 95, 110, 125)
