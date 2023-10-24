@@ -50,3 +50,5 @@ AW_STD_YEAR_FISHERY_AREA_LINEPLOT_FACETED =
   labs(x = "", y = "Standardized average weight")
 
 ggsave(paste0("../outputs/charts/AW/", WPTT_SPECIES, "/AW_STD_YEAR_FISHERY_AREA_LINEPLOT_FACETED.png"), AW_STD_YEAR_FISHERY_AREA_LINEPLOT_FACETED, width = 10, height = 6/8*10)
+
+l_info("Average weight indicator by area computed", WPTT_SPECIES)

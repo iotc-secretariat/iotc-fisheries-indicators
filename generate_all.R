@@ -1,5 +1,5 @@
 # Source the R codes
-setwd("initialization")
+setwd("initialisation")
 source("00_CORE.R")
 setwd("..")
 

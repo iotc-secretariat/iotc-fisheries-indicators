@@ -51,7 +51,7 @@ FLEET_COLORS = fleet_colors_for(CE_LLF)
 ## Non-standardized effort ####
 CPUE_LLF_YEAR_FLEET_AREA_LINEPLOT_FACETED =
   ggplot(data = CE_LLF, aes(x  = YEAR, y = CPUE_TOT)) + 
-  labs(x = "", y = "CPUE (t/1,000 hooks)") + 
+  labs(x = "", y = "CPUE (fish/1,000 hooks)") + 
   geom_point(shape = 21, size = 0.7, stroke = 0.7, aes(color = FLEET)) + 
   geom_line(aes(color = FLEET)) + 
   geom_hline(data = CPUE_LLF_YEAR_FLEET_QUANTILES, aes(yintercept = CPUE_QLOW, color = FLEET), linetype = "dashed") + 
