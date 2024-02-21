@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = FALSE, tidy.opts = list(width.cutoff = 60), tidy = 
 
 ## Purpose
 
-To provide participants at the 24^th^ Session of the IOTC Working Party on Tropical Tunas (WPTT24) with an overview of fisheries indicators for the three tropical species based on the data available to the IOTC Secretariat as of October 2022.
+To provide participants at the 25^th^ Session of the IOTC Working Party on Tropical Tunas (WPTT25) with an overview of fisheries indicators for the three tropical species based on the data available to the IOTC Secretariat as of October 2023.
 
 ---
 
